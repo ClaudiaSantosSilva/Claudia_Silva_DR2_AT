@@ -184,7 +184,21 @@ def buscar_por_genero(lista_inicial_filmes):
     else:
         print("Nenhum filme encontrado")         
 
-
+#MARCAR COMO VISTO
+def marcar_visto(lista_inicial_filmes):
+    titulo_informado = input("Informe o titulo do filme a ser marcado como já visto: ").lower().strip()
+    filme_visto = []    
+    for filme in lista_inicial_filmes:
+        titulo = filme['titulo'].lower()
+        if titulo_informado in titulo:
+           filme['visto'] = True
+           filme_visto.append(filme)
+                      
+    if filme_visto:
+        print("Status de visto alterado com sucesso!")
+    else:    
+        print("Titulo não encontrado. Verifique se digitou o titulo corretamente.")
+        
     
 
 
@@ -218,8 +232,8 @@ def menu():
                 buscar_titulo_substring(lista_inicial_filmes)
             case 6: 
                 buscar_por_genero(lista_inicial_filmes)
-            #case 7: 
-                #listar_usuario()
+            case 7: 
+                marcar_visto(lista_inicial_filmes)
             #case 8: 
                # listar_usuario()
             #case 9: 
