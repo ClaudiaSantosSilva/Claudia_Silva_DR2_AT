@@ -279,7 +279,7 @@ def menu():
                 abreviar_sinopses(lista_inicial_filmes)
             #case 10: 
                 #listar_usuario()
-            case 11: 
+            case 0: 
                 print("Saindo do sistema...")
                 break
             case _:
