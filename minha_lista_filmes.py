@@ -204,7 +204,39 @@ def mostar_não_vistos(lista_inicial_filmes):
     filmes_nao_vistos = [filme for filme in lista_inicial_filmes if filme.get('visto') == False]
     print(filmes_nao_vistos)
         
+#MOSTRAR SINOPSES ABREVIADAS
+def abreviar_sinopses(lista_de_filmes):
+    for filme in lista_de_filmes:
+        sinopse = filme['sinopse'].lower().strip()
+        palavras_sinopse = filme['sinopse'].split() #lista de palavras
+        #        print(palavras_sinopse)
+        caracteres_sinopse = len(sinopse) #conta TODOS caracteres
+        if caracteres_sinopse <= 50:
+           print(f"{filme['titulo']} - {sinopse}")
+        elif caracteres_sinopse > 50:
+            sinopse_abreviada = []
+            for palavra in palavras_sinopse:
+                if palavra.endswith(","):
+                    palavra = palavra.rstrip(",")
+                quantidade_letras = len(palavra)
+                if quantidade_letras > 6:
+                    vogal = "aeiou"
+                    nova_palavra = palavra[:6]
+                    if nova_palavra[-1] in vogal:
+                        while nova_palavra[-1] in vogal:
+                            nova_palavra = nova_palavra[:-1]
+                        nova_palavra = nova_palavra + "."
+                    else:                     
+                        nova_palavra = nova_palavra + '.'  
+                    sinopse_abreviada.append(nova_palavra)                         
+                elif quantidade_letras <= 6:
+                    palavra = palavra    
+                    sinopse_abreviada.append(palavra)        
+            sinopse_final_abreviada = " ".join(sinopse_abreviada)
+            print(f"{filme['titulo']} - {sinopse_final_abreviada}")
 
+    #print(caracteres_sinopse)
+        
    
 
 
@@ -220,9 +252,10 @@ def menu():
         print("[6] Buscar filmes por genero")
         print("[7] Marcar filme assitido")
         print("[8] Listar filmes ainda não vistos")
-        print("[9] Mostrar palavras mais frequentes nos títulos e sinopses")
-        print("[10] Mostrar filmes relevantes por palavras-chave")  
-        print("[11] Sair do programa")     
+        print("[9] Mostrar sinopses abreviadas")
+        print("[10] Mostrar palavras mais frequentes nos títulos e sinopses")
+        print("[11] Mostrar filmes relevantes por palavras-chave")  
+        print("[0] Sair do programa")     
         opcao = int(input("Escolha a opção desejada: "))
 
         match opcao:
@@ -242,8 +275,8 @@ def menu():
                 marcar_visto(lista_inicial_filmes)
             case 8: 
                 mostar_não_vistos(lista_inicial_filmes)
-            #case 9: 
-                #listar_usuario()
+            case 9: 
+                abreviar_sinopses(lista_inicial_filmes)
             #case 10: 
                 #listar_usuario()
             case 11: 
