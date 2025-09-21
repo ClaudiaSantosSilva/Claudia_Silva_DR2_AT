@@ -190,16 +190,22 @@ def marcar_visto(lista_inicial_filmes):
     filme_visto = []    
     for filme in lista_inicial_filmes:
         titulo = filme['titulo'].lower()
-        if titulo_informado in titulo:
+        if titulo_informado in titulo: #não ignora acentos!
            filme['visto'] = True
            filme_visto.append(filme)
                       
     if filme_visto:
         print("Status de visto alterado com sucesso!")
     else:    
-        print("Titulo não encontrado. Verifique se digitou o titulo corretamente.")
+        print("Titulo não encontrado. Verifique se digitou o titulo corretamente e com acentos.")
         
-    
+#MOSTRAR FILMES AINDA NÃO VISTOS
+def mostar_não_vistos(lista_inicial_filmes):
+    filmes_nao_vistos = [filme for filme in lista_inicial_filmes if filme.get('visto') == False]
+    print(filmes_nao_vistos)
+        
+
+   
 
 
 
@@ -213,7 +219,7 @@ def menu():
         print("[5] Buscar filme por parte do titulo")
         print("[6] Buscar filmes por genero")
         print("[7] Marcar filme assitido")
-        print("[8] Listar filmes vistos / não vistos")
+        print("[8] Listar filmes ainda não vistos")
         print("[9] Mostrar palavras mais frequentes nos títulos e sinopses")
         print("[10] Mostrar filmes relevantes por palavras-chave")  
         print("[11] Sair do programa")     
@@ -234,15 +240,15 @@ def menu():
                 buscar_por_genero(lista_inicial_filmes)
             case 7: 
                 marcar_visto(lista_inicial_filmes)
-            #case 8: 
-               # listar_usuario()
+            case 8: 
+                mostar_não_vistos(lista_inicial_filmes)
             #case 9: 
                 #listar_usuario()
             #case 10: 
                 #listar_usuario()
-            #case 11: 
-               # print("Saindo do sistema")
-               # break
+            case 11: 
+                print("Saindo do sistema...")
+                break
             case _:
                 print("Opção inválida")
         #opcao = int(input("Escolha a opção desejada: "))
