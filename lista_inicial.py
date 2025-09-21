@@ -68,9 +68,9 @@ def cadastrar_filme(lista_inicial_filmes):
         "visto": visto
     }
     lista_inicial_filmes.append(novo_filme)
-cadastrar_filme(lista_inicial_filmes) 
+#cadastrar_filme(lista_inicial_filmes) 
 
-print(lista_inicial_filmes)
+#print(lista_inicial_filmes)
 
 #REMOVER FILME DA LISTA
 def remover_filme(lista_inicial_filmes):
@@ -86,18 +86,112 @@ def remover_filme(lista_inicial_filmes):
     if not achado:
         print("Esse título não existe no catálogo.")
 
-remover_filme(lista_inicial_filmes)  
+#remover_filme(lista_inicial_filmes)  
 
 #print(lista_inicial_filmes)
-    
-    
 
+#LISTAR FILMES
+def listar_filmes(lista_inicial_filmes):
+    print("== Filmes do Catálogo ==")
+    print("[1] Por id")
+    print("[2] Por titulo")
+    print("[3] Por Ano")
+    forma_ordenar = int(input("Como deseja ordenar os filmes: "))
+    match forma_ordenar:
+        case 1:
+            print("== Lista de filmes por id ==")
+            for filme in lista_inicial_filmes:
+                print(filme)
+        case 2:
+            print("== Lista de filmes por titulo ==")
+            for filme in lista_inicial_filmes:
+                filmes_ordem_alfabetica = sorted(lista_inicial_filmes, key = lambda filme: filme['titulo'].lower())
+            print(filmes_ordem_alfabetica)
+        case 3:
+            print("== Lista de filmes por ano ==")
+            for filme in lista_inicial_filmes:
+                filmes_ordem_ano = sorted(lista_inicial_filmes, key = lambda filme: filme['ano'])
+            print(filmes_ordem_ano)
+        case _:
+            print("Escolha uma opção válida!")
+
+#listar_filmes(lista_inicial_filmes)                      
+
+#BUSCAR TITULO POR PALAVRA OU PALAVRAS
+def buscar_titulo_palavras(lista_inicial_filmes):
+    print("== Encontrar titulos ==")
+    palavras = [palavra.lower().strip() for palavra in input("Informe a(s) palavra(s) a ser(em) procurada(s) nos títulos dos filmes, separadas por virgula: ").split(",")]
+    print("== Forma de Busca == ")
+    print("[1] AND -> Todas as palavras devem estar no título")
+    print("[2] OR -> Qualquer palavra já basta")
+    forma_busca = int(input("Digite a forma de busca: "))
+    titulos_encontrados = []
+
+    match forma_busca:
+        case 1:
+            for filme in lista_inicial_filmes:
+                titulo = filme['titulo'].lower()
+                if all(palavra in titulo for palavra in palavras):
+                    titulos_encontrados.append(filme)
+        case 2:
+            for filme in lista_inicial_filmes:
+                titulo = filme['titulo'].lower()
+                if any(palavra in titulo for palavra in palavras):
+                    titulos_encontrados.append(filme)
+        case _:
+            print("Digite uma forma válida de busca") 
+
+    if titulos_encontrados:
+        print("Filmes encontrados:") 
+        for filme in titulos_encontrados:
+            print(filme)
+    else:
+        print("Nenhum filme encontrado")                          
+
+#buscar_titulo_palavras(lista_inicial_filmes)
+
+#BUSCAR TITULO POR SUBSTRING
+def buscar_titulo_substring(lista_inicial_filmes):
+    pedaco = input("Informe parte de alguma palavra que deseja encontrar em um título: ").lower().strip()
+    titulos_encontrados = []
+    for filme in lista_inicial_filmes:
+        titulo = filme['titulo'].lower()
+        if pedaco in titulo:
+            titulos_encontrados.append(filme)
+
+    if titulos_encontrados:
+        print("Filmes encontrados:") 
+        for filme in titulos_encontrados:
+            filmes_encontrados = sorted(titulos_encontrados, key = lambda filme: filme['ano'])
+        print(filmes_encontrados)
+    else:
+        print("Nenhum filme encontrado")           
+
+#BUSCAR FILME POR GENERO
+def buscar_por_genero(lista_inicial_filmes):
+    genero_desejado = input("Informe o gênero do filme desejado: ").lower().strip()
+    titulos_encontrados = []
+    for filme in lista_inicial_filmes:
+        genero = filme['genero']
+        if genero_desejado in genero:
+            titulos_encontrados.append(filme)
+
+    if titulos_encontrados:
+        print("Filmes encontrados:") 
+        for filme in titulos_encontrados:
+            filmes_encontrados = sorted(titulos_encontrados, key = lambda filme: filme['titulo'])
+        print(filmes_encontrados)
+    else:
+        print("Nenhum filme encontrado")         
+
+
+    
 
 
 
 def menu():
     while True:
-        print("**** Menu TextFlix ****")
+        print("\n**** Menu TextFlix ****")
         print("[1] Cadastrar filme")
         print("[2] Remover filme")
         print("[3] Listar filmes")
@@ -113,17 +207,17 @@ def menu():
 
         match opcao:
             case 1: 
-                cadastrar_filme()
+                cadastrar_filme(lista_inicial_filmes)
             case 2: 
                 remover_filme(lista_inicial_filmes)
-            #case 3: 
-             #   atualizar()
-            #case 4: 
-             #   excluir()
-            #case 5: 
-               # listar_usuario()
-            #case 6: 
-               # listar_usuario()
+            case 3:
+                listar_filmes(lista_inicial_filmes)
+            case 4: 
+                buscar_titulo_palavras(lista_inicial_filmes)
+            case 5: 
+                buscar_titulo_substring(lista_inicial_filmes)
+            case 6: 
+                buscar_por_genero(lista_inicial_filmes)
             #case 7: 
                 #listar_usuario()
             #case 8: 
@@ -137,7 +231,7 @@ def menu():
                # break
             case _:
                 print("Opção inválida")
-
+        #opcao = int(input("Escolha a opção desejada: "))
 menu()
 
 
