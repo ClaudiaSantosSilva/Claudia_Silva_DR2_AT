@@ -247,9 +247,18 @@ def contar_palavras_frequentes(lista_inicial_filmes):
         palavras_sinopse = sinopse.split()
         for i, palavra in enumerate(palavras_sinopse):
                 if palavra.endswith(","):
-                    palavras_sinopse[i] = palavra.rstrip(",")
+                    palavras_sinopse[i] = palavra.rstrip(",") #Acerta AQUELA palavra na lista palavras sinopse
         palavras_titulo_sinopse = palavras_titulo + palavras_sinopse
-        print(palavras_titulo_sinopse)            
+        contagem_k_palavras = {}
+        while len(contagem_k_palavras) < k:
+            for palavra in palavras_titulo_sinopse:
+                if palavra in contagem_k_palavras:
+                    contagem_k_palavras[palavra] = contagem_k_palavras[palavra] + 1
+                else:
+                    contagem_k_palavras[palavra] = 1  
+        print(contagem_k_palavras)              
+
+        #print(palavras_titulo_sinopse)            ESTÁ CONTANDO MAS OS FILMES ESTÂO SEPARADOS
 
 
 
