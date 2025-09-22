@@ -215,9 +215,9 @@ def abreviar_sinopses(lista_de_filmes):
            print(f"{filme['titulo']} - {sinopse}")
         elif caracteres_sinopse > 50:
             sinopse_abreviada = []
-            for palavra in palavras_sinopse:
+            for i, palavra in enumerate(palavras_sinopse):
                 if palavra.endswith(","):
-                    palavra = palavra.rstrip(",")
+                    palavras_sinopse[i] = palavra.rstrip(",")
                 quantidade_letras = len(palavra)
                 if quantidade_letras > 6:
                     vogal = "aeiou"
@@ -237,7 +237,20 @@ def abreviar_sinopses(lista_de_filmes):
 
     #print(caracteres_sinopse)
         
-   
+#TOP K PALAVRAS EM TITULOS E SINOPSES
+def contar_palavras_frequentes(lista_inicial_filmes):
+    k = int(input("Quantas palavras frequentes deseja saber: "))
+    for filme in lista_inicial_filmes:
+        titulo = filme['titulo'].lower().strip()
+        sinopse = filme['sinopse'].lower().strip()
+        palavras_titulo = titulo.split()
+        palavras_sinopse = sinopse.split()
+        for i, palavra in enumerate(palavras_sinopse):
+                if palavra.endswith(","):
+                    palavras_sinopse[i] = palavra.rstrip(",")
+        palavras_titulo_sinopse = palavras_titulo + palavras_sinopse
+        print(palavras_titulo_sinopse)            
+
 
 
 
@@ -277,8 +290,8 @@ def menu():
                 mostar_não_vistos(lista_inicial_filmes)
             case 9: 
                 abreviar_sinopses(lista_inicial_filmes)
-            #case 10: 
-                #listar_usuario()
+            case 10: 
+                contar_palavras_frequentes(lista_inicial_filmes)
             case 0: 
                 print("Saindo do sistema...")
                 break
