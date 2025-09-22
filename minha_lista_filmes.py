@@ -1,3 +1,5 @@
+import string
+
 #LISTA DE FILMES FOMATADA - PARSER DO CATALOGO
 texto_inicial = "matrix|1999|Ação, Sci-Fi|Um hacker descobre a verdade sobre sua realidade.#Cidade de deus|2002|drama|História da ascensão do crime organizado nas favelas do Rio de Janeiro.#O senhor dos anéis: a sociedade do anel|2001|Aventura; Fantasia|Jornada épica pela Terra-média em busca do Um Anel.#Parasita|2019|Drama, Suspense|Uma família pobre se infiltra aos poucos em uma casa rica, com consequências inesperadas.#Bacurau|2019|drama;ficção|Um povoado do sertão brasileiro desaparece do mapa e precisa se defender de invasores.#Cidade de Deus|2002|Drama|A mesma história de crime, repetida de propósito.#Avatar|2009|Aventura, Sci-Fi|Em um planeta distante, humanos exploram recursos naturais enquanto um soldado humano se conecta aos nativos locais.#a vida é bela|1997|drama;romance|Durante a Segunda Guerra, um pai usa humor e imaginação para proteger o filho dos horrores de um campo de concentração.#Interestelar|2014|Sci-Fi, Drama|Exploradores espaciais viajam por buracos de minhoca em busca de um novo lar para a humanidade.#O Auto da Compadecida|2000|Comédia, Drama|Baseado na obra de Ariano Suassuna, dois nordestinos vivem aventuras que misturam humor, fé e crítica social."
 
@@ -53,7 +55,7 @@ def cadastrar_filme(lista_inicial_filmes):
     generos_informados = input("Informe o(s) genero(s) do filme separados por (;): ").lower().replace(";", ",")
     generos = [genero.strip() for genero in generos_informados.split(",")]
     sinopse = input("Digite a sinopse do filme em até 300 caracteres: ")
-    sinopse_truncada = sinopse[:300]
+    sinopse_truncada = sinopse[:300] + "..."
     if len(sinopse)> 300:
         print("A sinopse foi truncada em 300 caracteres!")
         sinopse = sinopse_truncada
@@ -190,7 +192,7 @@ def marcar_visto(lista_inicial_filmes):
     filme_visto = []    
     for filme in lista_inicial_filmes:
         titulo = filme['titulo'].lower()
-        if titulo_informado in titulo: #não ignora acentos!
+        if titulo_informado in titulo: #não ignora acentos! Permite parte do titulo.
            filme['visto'] = True
            filme_visto.append(filme)
                       
@@ -240,25 +242,41 @@ def abreviar_sinopses(lista_de_filmes):
 #TOP K PALAVRAS EM TITULOS E SINOPSES
 def contar_palavras_frequentes(lista_inicial_filmes):
     k = int(input("Quantas palavras frequentes deseja saber: "))
+    palavras_titulo_sinopse = []
     for filme in lista_inicial_filmes:
         titulo = filme['titulo'].lower().strip()
         sinopse = filme['sinopse'].lower().strip()
         palavras_titulo = titulo.split()
+        for i, palavra in enumerate(palavras_titulo): #Acerta AQUELA palavra na lista palavras titulo
+            palavras_titulo[i] = palavra.strip(string.punctuation) #para tirar , . : etc
         palavras_sinopse = sinopse.split()
-        for i, palavra in enumerate(palavras_sinopse):
-                if palavra.endswith(","):
-                    palavras_sinopse[i] = palavra.rstrip(",") #Acerta AQUELA palavra na lista palavras sinopse
-        palavras_titulo_sinopse = palavras_titulo + palavras_sinopse
-        contagem_k_palavras = {}
-        while len(contagem_k_palavras) < k:
-            for palavra in palavras_titulo_sinopse:
-                if palavra in contagem_k_palavras:
-                    contagem_k_palavras[palavra] = contagem_k_palavras[palavra] + 1
-                else:
-                    contagem_k_palavras[palavra] = 1  
-        print(contagem_k_palavras)              
+        for i, palavra in enumerate(palavras_sinopse): 
+            palavras_sinopse[i] = palavra.strip(string.punctuation)  
+                
+        palavras_titulo_sinopse += palavras_titulo + palavras_sinopse
+    #print(palavras_titulo_sinopse) #é uma lista
 
-        #print(palavras_titulo_sinopse)            ESTÁ CONTANDO MAS OS FILMES ESTÂO SEPARADOS
+    contagem_k_palavras = {}
+    for palavra in palavras_titulo_sinopse:
+        if len(palavra) >= 5:
+            if palavra in contagem_k_palavras: # fazendo assim as palavras não se repetem
+                contagem_k_palavras[palavra] = contagem_k_palavras[palavra] + 1
+            else:
+                contagem_k_palavras[palavra] = 1  
+    #print(contagem_k_palavras) #dicionario com a contagem de todas as palavras, sem as menores de 5 letras 
+
+    ordenar_contagem_k_palavras = sorted(contagem_k_palavras.items(), key=lambda item: item[1], reverse=True) #item[0] é a chave. Ordeno pelo [1] 
+    #print(ordenar_contagem_k_palavras) #devolve lista.Posso usar [:k]
+
+    primeiras_k_palavras = dict(ordenar_contagem_k_palavras[:k])
+    print(f"As primeiras {k} palavras são: ")
+    for chave, valor in primeiras_k_palavras.items():
+        print(f"{chave} - {valor} vezes")
+
+
+
+
+                
 
 
 
