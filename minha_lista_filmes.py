@@ -273,7 +273,40 @@ def contar_palavras_frequentes(lista_inicial_filmes):
     for chave, valor in primeiras_k_palavras.items():
         print(f"{chave} - {valor} vezes")
 
+#CALCULAR SCORE DE FILMES
+def calcular_score_filmes(lista_inicial_filmes):
+    palavras_interesse = input("Informe a(s) palavra(s) de seu interesse separadas por virgula: ").lower().strip().split(",")
+    k = int(input("Informe o número de filmes relevantes que deseja encontrar: "))
+    
+    score_filme={}
+    for filme in lista_inicial_filmes:        
+        sinopse = filme['sinopse'].lower().strip()
+        palavras_sinopse = sinopse.split()
+        for i, palavra in enumerate(palavras_sinopse): 
+            palavras_sinopse[i] = palavra.strip(string.punctuation) 
 
+        for palavra_interesse in palavras_interesse:
+            #print(palavra_interesse)
+            if len(palavra_interesse) >= 5:
+                palavra_interesse = palavra_interesse.strip() #se colocar espaço apos virgula, não estava considerando a palavra na comparação
+                if palavra_interesse in palavras_sinopse:
+                    if filme['titulo'] in score_filme.keys():
+                        score_filme[filme['titulo']] = score_filme[filme['titulo']] + 1
+                    else:
+                        score_filme[filme['titulo']] = 1
+
+                    #print(score_filme)
+                
+    #print(score_filme)                    
+
+    score_filme_ordenado = list(sorted(score_filme.items(), key= lambda item: item[1], reverse=True))
+    score_filme_ordenado = score_filme_ordenado[:k]
+    print("\nFilmes mais relevantes:")
+    for titulo, score in score_filme_ordenado:
+        print(f"{titulo} - {score} palavras-chave")
+        
+
+    
 
 
                 
@@ -319,6 +352,8 @@ def menu():
                 abreviar_sinopses(lista_inicial_filmes)
             case 10: 
                 contar_palavras_frequentes(lista_inicial_filmes)
+            case 11: 
+                calcular_score_filmes(lista_inicial_filmes)    
             case 0: 
                 print("Saindo do sistema...")
                 break
