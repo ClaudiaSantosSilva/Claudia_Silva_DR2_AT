@@ -1,4 +1,5 @@
 from util import *
+from funcoes_apoio import *
 
 #CADASTRAR FILME
 def cadastrar_filme(lista_inicial_filmes):
@@ -6,7 +7,7 @@ def cadastrar_filme(lista_inicial_filmes):
     id_ultimo_filme = ultimo_filme.get('id')
     id = id_ultimo_filme + 1
     titulo = input("Digite o título: ").strip()
-    ano = int(input("Informe o ano do filme: ")) 
+    ano = receber_int("Informe o ano do filme: ") 
     generos_informados = input("Informe o(s) genero(s) do filme separados por (;): ").lower().replace(";", ",")
     generos = [genero.strip() for genero in generos_informados.split(",")]
     sinopse = input("Digite a sinopse do filme em até 300 caracteres: ")
@@ -51,7 +52,7 @@ def listar_filmes(lista_inicial_filmes):
     print("[1] Por id")
     print("[2] Por titulo")
     print("[3] Por Ano")
-    forma_ordenar = int(input("Como deseja ordenar os filmes: "))
+    forma_ordenar = receber_int("Como deseja ordenar os filmes: ")
     match forma_ordenar:
         case 1:
             print("== Lista de filmes por id ==")

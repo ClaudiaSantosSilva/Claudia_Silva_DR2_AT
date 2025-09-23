@@ -1,3 +1,4 @@
+from funcoes_apoio import *
 import string
 
 #LISTA DE FILMES FOMATADA - PARSER DO CATALOGO
@@ -35,12 +36,13 @@ def parser_catalogo(texto_inicial):
        filme['visto'] = False
        lista.append(filme)
     
+    #incluindo o id sequencial na lista de filmes
     for i, filme in enumerate(lista, start=1):
         id = {'id': i}
         id.update(filme) #adiciona os outros atributos já existentes no dicionario filme
         lista_inicial_filmes.append(id) 
     
-    return lista_inicial_filmes  
+    return lista_inicial_filmes 
 parser_catalogo(texto_inicial)    
 
 #print(lista_inicial_filmes)
@@ -52,7 +54,7 @@ def buscar_titulo_palavras(lista_inicial_filmes):
     print("== Forma de Busca == ")
     print("[1] AND -> Todas as palavras devem estar no título")
     print("[2] OR -> Qualquer palavra já basta")
-    forma_busca = int(input("Digite a forma de busca: "))
+    forma_busca = receber_int("Digite a forma de busca: ")
     titulos_encontrados = []
 
     match forma_busca:
@@ -135,7 +137,7 @@ def abreviar_sinopses(lista_de_filmes):
     for filme in lista_de_filmes:
         sinopse = filme['sinopse'].strip()
         palavras_sinopse = filme['sinopse'].split() #lista de palavras
-        #        print(palavras_sinopse)
+        #print(palavras_sinopse)
         caracteres_sinopse = len(sinopse) #conta TODOS caracteres
         if caracteres_sinopse <= 50:
            print(f"{filme['titulo']} - {sinopse}")
@@ -164,7 +166,7 @@ def abreviar_sinopses(lista_de_filmes):
                                                           
 #TOP K PALAVRAS EM TITULOS E SINOPSES
 def contar_palavras_frequentes(lista_inicial_filmes):
-    k = int(input("Quantas palavras frequentes deseja saber: "))
+    k = receber_int("Quantas palavras frequentes deseja saber: ")
     palavras_titulo_sinopse = []
     for filme in lista_inicial_filmes:
         titulo = filme['titulo'].lower().strip()
@@ -199,7 +201,7 @@ def contar_palavras_frequentes(lista_inicial_filmes):
 #CALCULAR SCORE DE FILMES
 def calcular_score_filmes(lista_inicial_filmes):
     palavras_interesse = input("Informe a(s) palavra(s) de seu interesse separadas por virgula: ").lower().strip().split(",")
-    k = int(input("Informe o número de filmes relevantes que deseja encontrar: "))
+    k = receber_int("Informe o número de filmes relevantes que deseja encontrar: ")
     
     score_filme={}
     for filme in lista_inicial_filmes:        
@@ -225,3 +227,5 @@ def calcular_score_filmes(lista_inicial_filmes):
     print("\nFilmes mais relevantes:")
     for titulo, score in score_filme_ordenado:
         print(f"{titulo} - {score} palavras-chave")        
+
+

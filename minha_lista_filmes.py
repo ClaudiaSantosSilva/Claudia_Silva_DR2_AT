@@ -1,5 +1,6 @@
-from util import *
+from funcoes_apoio import receber_opcao
 from crud import *
+from util import *
 
 def menu():
     while True:
@@ -16,7 +17,7 @@ def menu():
         print("[10] Mostrar palavras mais frequentes nos títulos e sinopses")
         print("[11] Mostrar filmes relevantes por palavras-chave")  
         print("[0] Sair do programa")     
-        opcao = int(input("Escolha a opção desejada: "))
+        opcao = receber_opcao("Escolha a opção desejada: ")
 
         match opcao:
             case 1: 
@@ -46,9 +47,7 @@ def menu():
                 break
             case _:
                 print("Opção inválida")
-        #opcao = int(input("Escolha a opção desejada: "))
+                
 menu()
-
-
 
     
