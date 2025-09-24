@@ -57,21 +57,34 @@ def listar_filmes(lista_inicial_filmes):
         case 1:
             print("== Lista de filmes por id ==")
             for filme in lista_inicial_filmes:
-                print(filme)
+                print_filme(filme)
         case 2:
             print("== Lista de filmes por titulo ==")
             for filme in lista_inicial_filmes:
                 filmes_ordem_alfabetica = sorted(lista_inicial_filmes, key = lambda filme: filme['titulo'].lower())
             for filme in filmes_ordem_alfabetica:    
-                print(filme)
+                print_filme(filme)
         case 3:
             print("== Lista de filmes por ano ==")
             for filme in lista_inicial_filmes:
                 filmes_ordem_ano = sorted(lista_inicial_filmes, key = lambda filme: filme['ano'])
             for filme in filmes_ordem_ano:
-                print(filme)
+                print_filme(filme)
         case _:
             print("Escolha uma opção válida!")
 
-
+#MARCAR COMO VISTO
+def marcar_visto(lista_inicial_filmes):
+    titulo_informado = input("Informe o titulo do filme a ser marcado como já visto: ").lower().strip()
+    filme_visto = []    
+    for filme in lista_inicial_filmes:
+        titulo = filme['titulo'].lower()
+        if titulo_informado in titulo: #não ignora acentos! Permite parte do titulo.
+           filme['visto'] = True
+           filme_visto.append(filme)
+                      
+    if filme_visto:
+        print("Status de visto alterado com sucesso!")
+    else:    
+        print("Titulo não encontrado. Verifique se digitou o titulo corretamente e com acentos.")
 

@@ -27,3 +27,13 @@ def receber_opcao(mensagem):
         except Exception:
             print("Erro: Opção inválida.") 
     return opcao              
+
+#FORMATAR FILME A SER IMPRESSO
+def print_filme(filme):
+    '''
+    Função que formata o print dos filmes, em um formato padrão e amigável.
+    Recebe cada filme/seus atributos.
+    OUTPUT: Print formatado dos filmes.
+    '''
+    return print(f"Id: {filme["id"]} | Título: {filme["titulo"]} | Ano: {filme["ano"]} | Gênero: {", ".join(filme["genero"])} | Sinopse: {filme["sinopse"]} | Filme visto: {filme["visto"]}.")
+

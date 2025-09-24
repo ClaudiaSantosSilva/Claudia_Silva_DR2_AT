@@ -74,7 +74,7 @@ def buscar_titulo_palavras(lista_inicial_filmes):
     if titulos_encontrados:
         print("Filmes encontrados:") 
         for filme in titulos_encontrados:
-            print(filme)
+            print_filme(filme)
     else:
         print("Nenhum filme encontrado")  
 
@@ -91,7 +91,8 @@ def buscar_titulo_substring(lista_inicial_filmes):
         print("Filmes encontrados:") 
         for filme in titulos_encontrados:
             filmes_encontrados = sorted(titulos_encontrados, key = lambda filme: filme['ano'])
-        print(filmes_encontrados)
+        for filme in filmes_encontrados:
+            print_filme(filme)
     else:
         print("Nenhum filme encontrado")  
 
@@ -108,29 +109,16 @@ def buscar_por_genero(lista_inicial_filmes):
         print("Filmes encontrados:") 
         for filme in titulos_encontrados:
             filmes_encontrados = sorted(titulos_encontrados, key = lambda filme: filme['titulo'])
-        print(filmes_encontrados)
+        for filme in filmes_encontrados:
+            print_filme(filme)
     else:
         print("Nenhum filme encontrado") 
-
-#MARCAR COMO VISTO
-def marcar_visto(lista_inicial_filmes):
-    titulo_informado = input("Informe o titulo do filme a ser marcado como já visto: ").lower().strip()
-    filme_visto = []    
-    for filme in lista_inicial_filmes:
-        titulo = filme['titulo'].lower()
-        if titulo_informado in titulo: #não ignora acentos! Permite parte do titulo.
-           filme['visto'] = True
-           filme_visto.append(filme)
-                      
-    if filme_visto:
-        print("Status de visto alterado com sucesso!")
-    else:    
-        print("Titulo não encontrado. Verifique se digitou o titulo corretamente e com acentos.")
 
 #MOSTRAR FILMES AINDA NÃO VISTOS
 def mostar_não_vistos(lista_inicial_filmes):
     filmes_nao_vistos = [filme for filme in lista_inicial_filmes if filme.get('visto') == False]
-    print(filmes_nao_vistos)
+    for filme in filmes_nao_vistos:
+        print_filme(filme)
 
 #MOSTRAR SINOPSES ABREVIADAS
 def abreviar_sinopses(lista_de_filmes):
