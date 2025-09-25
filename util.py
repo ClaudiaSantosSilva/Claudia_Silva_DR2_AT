@@ -34,7 +34,8 @@ def parser_catalogo(texto_inicial):
             
        filme['sinopse'] = atributos[3]
        filme['visto'] = False
-       lista.append(filme)
+       if filme['titulo'] not in [filme["titulo"] for filme in lista]: #tirar a repetição do filme "Cidade de Deus"
+            lista.append(filme)
     
     #incluindo o id sequencial na lista de filmes
     for i, filme in enumerate(lista, start=1):
